@@ -1,5 +1,7 @@
 package com.jasi.sga.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,4 +16,8 @@ public class CourseService {
     public Course getCourseById(Long id) {
         return courseRepository.findById(id).get();
     }
+
+    public List<Course> getAllCourses() {
+        return courseRepository.findAll();
+    };
 }
