@@ -1,6 +1,5 @@
 package com.jasi.sga.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jasi.sga.model.Course;
@@ -19,7 +17,6 @@ import com.jasi.sga.util.ResponseBuilder;
 import com.jasi.sga.util.SgaErrorCode;
 import com.jasi.sga.util.SgaErrorMessage;
 import com.jasi.sga.util.SgaResponseMessage;
-
 
 @RestController
 @RequestMapping(path = "/sga/api/course", method = { RequestMethod.GET })
