@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class CreateCourseRequest {
+public class CreateUpdateCourseRequest {
     @NotBlank
     private String name;
 
