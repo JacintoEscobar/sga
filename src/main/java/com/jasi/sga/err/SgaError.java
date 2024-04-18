@@ -7,5 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class SgaError {
     private int code;
-    private String message;
+    private Object error;
 }

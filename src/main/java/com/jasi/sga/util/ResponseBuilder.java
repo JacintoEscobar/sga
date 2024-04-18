@@ -14,4 +14,9 @@ public abstract interface ResponseBuilder {
         Meta meta = new Meta(TimeUtils.getTimestamp(), message);
         return new SgaResponse(meta, new SgaError(errorCode, errorMessage));
     }
+
+    public static SgaResponse buildErrorResponse(String message, int errorCode, Object error) {
+        Meta meta = new Meta(TimeUtils.getTimestamp(), message);
+        return new SgaResponse(meta, new SgaError(errorCode, error));
+    }
 }
