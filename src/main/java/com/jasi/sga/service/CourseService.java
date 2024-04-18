@@ -25,4 +25,8 @@ public class CourseService {
         Course course = new Course(name, description);
         return courseRepository.save(course);
     }
+
+    public void delete(Course course) {
+        courseRepository.delete(course);
+    }
 }
