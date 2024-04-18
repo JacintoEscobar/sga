@@ -3,6 +3,7 @@ package com.jasi.sga.controller;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ import com.jasi.sga.util.SgaResponseMessage;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping(path = "/sga/api/course", method = { RequestMethod.GET, RequestMethod.POST })
+@RequestMapping(path = "/sga/api/course", method = { RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE })
 public class CourseController {
     @Autowired
     private CourseService courseService;
@@ -66,5 +67,17 @@ public class CourseController {
         }
 
         return new ResponseEntity<>(createdCourse, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/delete/{courseId:^[0-9]*$}")
+    public ResponseEntity<?> deleteCourse(@PathVariable Long courseId) {
+        Course currentCourse = null;
+        try {
+            currentCourse = courseService.getCourseById(courseId);
+        } catch (NoSuchElementException ex) {
+            return new ResponseEntity<>(ResponseBuilder.buildErrorResponse(SgaErrorMessage.ELEMENT_NOT_FOUND, SgaErrorCode.ELEMENT_NOT_FOUND, SgaResponseMessage.NO_ELEMENT_FOUND), HttpStatus.NOT_FOUND);
+        }
+        courseService.delete(currentCourse);
+        return new ResponseEntity<>(ResponseBuilder.buildSuccessResponse(SgaResponseMessage.ELEMENT_DELETED, currentCourse), HttpStatus.OK);
     }
 }
