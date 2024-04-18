@@ -1,10 +1,12 @@
 package com.jasi.sga.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jasi.sga.dto.CreateUpdateCourseRequest;
 import com.jasi.sga.model.Course;
 import com.jasi.sga.repository.CourseRespository;
 
@@ -28,5 +30,12 @@ public class CourseService {
 
     public void delete(Course course) {
         courseRepository.delete(course);
+    }
+
+    public Course putUpdate(Course course, CreateUpdateCourseRequest updateCourseRequest) {
+        course.setName(updateCourseRequest.getName());
+        course.setDescription(updateCourseRequest.getDescription());
+        course.setUpdatedAt(LocalDateTime.now());
+        return courseRepository.save(course);
     }
 }

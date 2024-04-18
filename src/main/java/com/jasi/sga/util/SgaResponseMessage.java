@@ -6,4 +6,5 @@ public abstract interface SgaResponseMessage {
     public static final String ELEMENTS_FOUND = "here are your courses";
     public static final String NO_ELEMENTS_FOUND = "you have no courses yet";
     public static final String ELEMENT_DELETED = "element deleted successfully";
+    public static final String COMPLETE_ELEMENT_UPDATE = "all element information was updated good";
 }
