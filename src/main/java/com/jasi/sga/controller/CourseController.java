@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -28,6 +29,7 @@ import com.jasi.sga.util.SgaErrorMessage;
 import com.jasi.sga.util.SgaResponseMessage;
 
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 
 @RestController
 @RequestMapping(path = "/sga/api/course", method = { RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE })
@@ -97,6 +99,23 @@ public class CourseController {
         }
         
         Course modifiedCourse = courseService.putUpdate(currentCourse, updateCourseRequest);
+        return new ResponseEntity<>(ResponseBuilder.buildSuccessResponse(SgaResponseMessage.COMPLETE_ELEMENT_UPDATE, modifiedCourse), HttpStatus.OK);
+    }
+
+    @PatchMapping("/update/{courseId:^[0-9]*$}")
+    public ResponseEntity<?> pathUpdate(@PathVariable Long courseId, @RequestBody HashMap<String, String> fieldsToUpdate) {
+        if (fieldsToUpdate == null) {
+            return new ResponseEntity<>(ResponseBuilder.buildErrorResponse(SgaErrorMessage.INVALID_INFORMATION, SgaErrorCode.INVALID_INFORMATION, SgaErrorMessage.INVALID_INFORMATION), HttpStatus.BAD_REQUEST);
+        }
+
+        Course currentCourse = null;
+        try {
+            currentCourse = courseService.getCourseById(courseId);
+        } catch (NoSuchElementException ex) {
+            return new ResponseEntity<>(ResponseBuilder.buildErrorResponse(SgaErrorMessage.ELEMENT_NOT_FOUND, SgaErrorCode.ELEMENT_NOT_FOUND, SgaResponseMessage.NO_ELEMENT_FOUND), HttpStatus.NOT_FOUND);
+        }
+
+        Course modifiedCourse = courseService.patchUpdate(currentCourse, fieldsToUpdate);
         return new ResponseEntity<>(ResponseBuilder.buildSuccessResponse(SgaResponseMessage.COMPLETE_ELEMENT_UPDATE, modifiedCourse), HttpStatus.OK);
     }
 }
